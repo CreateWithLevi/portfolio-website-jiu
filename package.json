@@ -1,0 +1,28 @@
+{
+  "name": "portfolio-website-jiu",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/svelte": "^7.2.0",
+    "@astrojs/vercel": "^8.2.10",
+    "astro": "^5.14.6",
+    "gsap": "^3.13.0",
+    "ogl": "^1.0.11",
+    "svelte": "^5.40.2",
+    "svelte-motion": "^0.12.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.8.1",
+    "typescript": "^5.9.3"
+  }
+}

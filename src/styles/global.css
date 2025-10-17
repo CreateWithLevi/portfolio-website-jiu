@@ -1,0 +1,182 @@
+/* CSS Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Design Tokens from Figma */
+:root {
+  /* Colors */
+  --dark: #0e0f09;
+  --white: #ffffff;
+  --off-white: #e7e1dc;
+  --off-white-70: rgba(231, 225, 220, 0.7);
+
+  /* Typography */
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-hero: 28px;
+  --font-size-body: 16px;
+  --font-size-small: 12px;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+  --line-height-none: 1;
+  --line-height-tight: 0.95;
+  --line-height-normal: 1.4;
+
+  /* Spacing */
+  --spacing-12: 12px;
+  --spacing-15: 15px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-30: 30px;
+  --spacing-34: 34px;
+  --spacing-35: 35px;
+  --spacing-50: 50px;
+  --spacing-60: 60px;
+
+  /* Layout */
+  --sidebar-width: 272px;
+  --content-width: 1028px;
+  --max-width: 1440px;
+
+  /* Border Radius */
+  --radius-full: 100px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 300ms ease;
+  --transition-slow: 500ms ease;
+}
+
+/* Base Styles */
+html {
+  font-family: var(--font-inter);
+  background-color: var(--dark);
+  color: var(--off-white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-none);
+}
+
+p {
+  margin: 0;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+/* Images */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Lists */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+/* Utility Classes */
+.uppercase {
+  text-transform: uppercase;
+}
+
+.text-white {
+  color: var(--white);
+}
+
+.text-off-white {
+  color: var(--off-white);
+}
+
+.text-off-white-70 {
+  color: var(--off-white-70);
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--off-white-70);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--off-white);
+}
+
+/* Selection */
+::selection {
+  background: var(--off-white);
+  color: var(--dark);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

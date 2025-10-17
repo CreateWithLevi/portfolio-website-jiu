@@ -1,0 +1,207 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Sidebar from '@/components/Sidebar.svelte';
+import ProjectCard from '@/components/ProjectCard.svelte';
+import CategorySeparator from '@/components/CategorySeparator.svelte';
+import { SITE_CONFIG } from '@/lib/utils/constants';
+
+// Fetch all project collections
+const [websites, branding, others] = await Promise.all([
+  getCollection('websites'),
+  getCollection('branding'),
+  getCollection('others'),
+]);
+
+// Combine and sort all projects
+const allProjects = [...websites, ...branding, ...others].sort(
+  (a, b) => (a.data.order || 0) - (b.data.order || 0)
+);
+
+// Group projects by category
+const projectsByCategory = {
+  website: websites,
+  branding: branding,
+  others: others,
+};
+---
+
+<BaseLayout>
+  <div class="portfolio">
+    <!-- Sidebar -->
+    <Sidebar client:load projects={allProjects} />
+
+    <!-- Main Content -->
+    <main class="content" id="main-content">
+      <!-- Website Projects -->
+      {
+        projectsByCategory.website.length > 0 && (
+          <>
+            <CategorySeparator label="WEBSITE" />
+            <div class="projects-grid">
+              {projectsByCategory.website.map((project) => (
+                <ProjectCard
+                  client:load
+                  id={project.id}
+                  title={project.data.title}
+                  description={project.data.description}
+                  media={project.data.media}
+                  tags={project.data.tags}
+                  url={project.data.url}
+                />
+              ))}
+            </div>
+          </>
+        )
+      }
+
+      <!-- Branding Projects -->
+      {
+        projectsByCategory.branding.length > 0 && (
+          <>
+            <CategorySeparator label="BRANDING" />
+            <div class="projects-grid">
+              {projectsByCategory.branding.map((project) => (
+                <ProjectCard
+                  client:load
+                  id={project.id}
+                  title={project.data.title}
+                  description={project.data.description}
+                  media={project.data.media}
+                  tags={project.data.tags}
+                  url={project.data.url}
+                />
+              ))}
+            </div>
+          </>
+        )
+      }
+
+      <!-- Other Projects -->
+      {
+        projectsByCategory.others.length > 0 && (
+          <>
+            <CategorySeparator label="OTHERS" />
+            <div class="projects-grid">
+              {projectsByCategory.others.map((project) => (
+                <ProjectCard
+                  client:load
+                  id={project.id}
+                  title={project.data.title}
+                  description={project.data.description}
+                  media={project.data.media}
+                  tags={project.data.tags}
+                  url={project.data.url}
+                />
+              ))}
+            </div>
+          </>
+        )
+      }
+
+      <!-- JIU Watermark (Desktop only) -->
+      <div class="watermark">JIU</div>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .portfolio {
+    display: flex;
+    min-height: 100vh;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .content {
+    flex: 1;
+    width: var(--content-width);
+    padding: var(--spacing-35);
+    position: relative;
+    height: 100vh;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+  }
+
+  .projects-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-30);
+  }
+
+  .projects-grid > :global(article) {
+    scroll-snap-align: start;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .watermark {
+    position: fixed;
+    bottom: 162px;
+    left: var(--spacing-35);
+    font-size: 105px;
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-normal);
+    color: var(--white);
+    white-space: nowrap;
+    transform: translateY(100%);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 1023px) {
+    .portfolio {
+      flex-direction: column;
+    }
+
+    .content {
+      width: 100%;
+      padding: 0;
+      height: auto;
+      overflow-y: visible;
+      scroll-snap-type: none;
+    }
+
+    .projects-grid {
+      gap: var(--spacing-24);
+    }
+
+    .projects-grid > :global(article) {
+      scroll-snap-align: none;
+      min-height: auto;
+      justify-content: flex-start;
+    }
+
+    .watermark {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Smooth scroll handling for anchor links
+  document.addEventListener('DOMContentLoaded', () => {
+    const sidebarLinks = document.querySelectorAll('.sidebar a[href^="#"]');
+    const content = document.getElementById('main-content');
+
+    sidebarLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = (link as HTMLAnchorElement).getAttribute('href')?.slice(1);
+        if (targetId && content) {
+          const targetElement = document.getElementById(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+          }
+        }
+      });
+    });
+  });
+</script>
