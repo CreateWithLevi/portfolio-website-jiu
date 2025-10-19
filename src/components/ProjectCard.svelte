@@ -1,6 +1,6 @@
 <script lang="ts">
-  import ProjectImage from './ProjectImage.svelte';
-  import LiveSiteLink from './LiveSiteLink.svelte';
+  import ProjectImage from "./ProjectImage.svelte";
+  import LiveSiteLink from "./LiveSiteLink.svelte";
 
   interface Props {
     id: string;
@@ -8,7 +8,7 @@
     description: string;
     media: {
       src: string;
-      type: 'image' | 'video';
+      type: "image" | "video";
       alt?: string;
     };
     tags: string[];
@@ -16,7 +16,15 @@
     year?: string;
   }
 
-  let { id, title, description, media, tags, url, year = '2025' }: Props = $props();
+  let {
+    id,
+    title,
+    description,
+    media,
+    tags,
+    url,
+    year = "2025",
+  }: Props = $props();
 </script>
 
 <article {id} class="project-card">
@@ -26,7 +34,11 @@
     {/if}
 
     <div class="project-image-wrapper">
-      <ProjectImage src={media.src} alt={media.alt || title} type={media.type} />
+      <ProjectImage
+        src={media.src}
+        alt={media.alt || title}
+        type={media.type}
+      />
     </div>
   </div>
 
@@ -93,7 +105,7 @@
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-normal);
     color: var(--off-white);
-    max-width: 180px;
+    max-width: 360px;
   }
 
   .project-details {
@@ -119,6 +131,7 @@
     line-height: var(--line-height-normal);
     color: var(--off-white);
     white-space: nowrap;
+    text-align: center;
   }
 
   .project-description {

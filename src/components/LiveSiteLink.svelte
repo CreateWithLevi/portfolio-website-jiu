@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import gsap from 'gsap';
+  import { onMount } from "svelte";
+  import gsap from "gsap";
 
   interface Props {
     url: string;
@@ -12,8 +12,9 @@
   let linkElement: HTMLAnchorElement;
 
   // SVG path data for normal and hovered states
-  const normalPath = 'M7 7L17 17M17 17H7M17 17V7';
-  const hoveredPath = 'M7 7L19 7M19 7L19 17M19 7L19 17';
+  const normalPath = "M7 7L17 17M17 17H7M17 17V7";
+  //pointing upper right
+  const hoveredPath = "M7 17L17 7M17 7H7M17 7V17";
 
   onMount(() => {
     // Initialize GSAP timeline
@@ -22,7 +23,7 @@
     tl.to(arrowPath, {
       attr: { d: hoveredPath },
       duration: 0.4,
-      ease: 'power2.out',
+      ease: "power2.out",
     });
 
     // Event handlers
@@ -34,12 +35,12 @@
       tl.reverse();
     };
 
-    linkElement.addEventListener('mouseenter', handleMouseEnter);
-    linkElement.addEventListener('mouseleave', handleMouseLeave);
+    linkElement.addEventListener("mouseenter", handleMouseEnter);
+    linkElement.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      linkElement.removeEventListener('mouseenter', handleMouseEnter);
-      linkElement.removeEventListener('mouseleave', handleMouseLeave);
+      linkElement.removeEventListener("mouseenter", handleMouseEnter);
+      linkElement.removeEventListener("mouseleave", handleMouseLeave);
       tl.kill();
     };
   });
@@ -52,7 +53,7 @@
   rel="noopener noreferrer"
   class="live-site-link"
 >
-  <span class="link-text">Live site</span>
+  <span class="link-text">Visit</span>
   <svg
     width="25"
     height="25"

@@ -1,15 +1,13 @@
 ---
 title: We Are Enough
-description: "Brand identity system for a women-empowerment fintech initiative. The visual language empowers and inspires, using bold typography and warm color palettes to create an approachable yet professional presence."
+description: "The “Dollars & Sense” sub-brand transforms financial education into an accessible, empowering journey. With playful yet intelligent visuals, it merges money (“dollars”) and insight (“sense”) into one cohesive symbol. The “Northstar” platform expands this ecosystem—guiding women toward investments in women-led ventures that align with their budget, values, and ambitions."
 media:
   src: "/media/we-are-enough-branding.jpg"
   type: image
   alt: "We Are Enough brand identity"
 tags:
-  - Branding
-  - Identity Design
-  - Fintech
-url: "https://www.behance.net/gallery/we-are-enough"
+  - Brand Identity
+url: "https://www.behance.net/gallery/230300767/We-Are-Enough-Web-Sublogo-Redesign"
 category: branding
 order: 2
 ---

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { TextScramble } from '@/lib/utils/textScramble';
-  import { SITE_CONFIG } from '@/lib/utils/constants';
-  import SocialLinks from './SocialLinks.svelte';
+  import { onMount, onDestroy } from "svelte";
+  import { TextScramble } from "@/lib/utils/textScramble";
+  import { SITE_CONFIG } from "@/lib/utils/constants";
+  import SocialLinks from "./SocialLinks.svelte";
 
   interface Project {
     id: string;
@@ -40,12 +40,12 @@
 
   onMount(() => {
     // Initialize text scramble for each project link
-    const links = document.querySelectorAll('.project-link');
+    const links = document.querySelectorAll(".project-link");
     links.forEach((link) => {
-      const el = link.querySelector('.project-title') as HTMLElement;
+      const el = link.querySelector(".project-title") as HTMLElement;
       if (el) {
         const scramble = new TextScramble(el);
-        scrambleInstances.set(link.getAttribute('data-id') || '', scramble);
+        scrambleInstances.set(link.getAttribute("data-id") || "", scramble);
       }
     });
   });
@@ -58,7 +58,7 @@
 
   function handleMouseEnter(event: MouseEvent, projectTitle: string) {
     const target = event.currentTarget as HTMLElement;
-    const id = target.getAttribute('data-id');
+    const id = target.getAttribute("data-id");
     if (id) {
       const scramble = scrambleInstances.get(id);
       if (scramble) {
@@ -74,7 +74,8 @@
     <div class="hero">
       <h1 class="hero-text">
         Hi, I'm {SITE_CONFIG.hero.name}<br />
-        Mission-driven Web designer<br />
+        Mission-driven<br />
+        Web designer<br />
         Motion lover
       </h1>
     </div>
@@ -98,7 +99,8 @@
                     href={`#${project.id}`}
                     class="project-link"
                     data-id={project.id}
-                    onmouseenter={(e) => handleMouseEnter(e, project.data.title)}
+                    onmouseenter={(e) =>
+                      handleMouseEnter(e, project.data.title)}
                   >
                     <span class="project-title">{project.data.title}</span>
                     <div class="divider"></div>
@@ -151,7 +153,7 @@
   .projects-nav {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-34);
+    gap: var(--spacing-16);
     flex: 1;
     overflow-y: auto;
   }
@@ -177,9 +179,9 @@
   }
 
   .divider {
-    height: 1px;
+    height: 0.5px;
     width: 100%;
-    background-color: var(--off-white);
+    background-color: var(--off-white-50);
   }
 
   .project-list {

@@ -14,6 +14,7 @@
   --white: #ffffff;
   --off-white: #e7e1dc;
   --off-white-70: rgba(231, 225, 220, 0.7);
+  --off-white-50: rgba(231, 225, 220, 0.5);
 
   /* Typography */
   --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -38,8 +39,8 @@
   --spacing-60: 60px;
 
   /* Layout */
-  --sidebar-width: 272px;
-  --content-width: 1028px;
+  --sidebar-width: 320px;
+  --content-width: 100%;
   --max-width: 1440px;
 
   /* Border Radius */
@@ -63,6 +64,11 @@ html {
 body {
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* Typography */
@@ -146,7 +152,8 @@ button {
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 0;
+  /* Hide vertical scrollbar */
   height: 8px;
 }
 
@@ -171,6 +178,7 @@ button {
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
