@@ -26,12 +26,23 @@ const { title = SITE_CONFIG.title, description = SITE_CONFIG.description } = Ast
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
+    <!-- Preload first project image for faster LCP -->
+    <link rel="preload" as="image" href="/media/orbkey.jpg" />
+
     <!-- Preconnect to fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    <!-- Google Fonts - Inter with optimized loading -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+    </noscript>
 
     <title>{title}</title>
   </head>

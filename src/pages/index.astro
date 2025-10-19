@@ -3,8 +3,6 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Sidebar from "@/components/Sidebar.svelte";
 import ProjectCard from "@/components/ProjectCard.svelte";
-import CategorySeparator from "@/components/CategorySeparator.svelte";
-import { SITE_CONFIG } from "@/lib/utils/constants";
 
 // Fetch all project collections
 const [websites, branding, others] = await Promise.all([
@@ -38,7 +36,7 @@ const projectsByCategory = {
 <BaseLayout>
   <div class="portfolio">
     <!-- Sidebar -->
-    <Sidebar client:load projects={allProjects} />
+    <Sidebar client:idle projects={allProjects} />
 
     <!-- Main Content -->
     <main class="content" id="main-content">
@@ -50,7 +48,7 @@ const projectsByCategory = {
             <div class="projects-grid">
               {projectsByCategory.website.map((project) => (
                 <ProjectCard
-                  client:load
+                  client:visible
                   id={project.id}
                   title={project.data.title}
                   description={project.data.description}
@@ -70,7 +68,7 @@ const projectsByCategory = {
             <div class="projects-grid">
               {projectsByCategory.branding.map((project) => (
                 <ProjectCard
-                  client:load
+                  client:visible
                   id={project.id}
                   title={project.data.title}
                   description={project.data.description}
@@ -90,7 +88,7 @@ const projectsByCategory = {
             <div class="projects-grid">
               {projectsByCategory.others.map((project) => (
                 <ProjectCard
-                  client:load
+                  client:visible
                   id={project.id}
                   title={project.data.title}
                   description={project.data.description}
@@ -199,7 +197,7 @@ const projectsByCategory = {
 </style>
 
 <script>
-  // Stable infinite scroll with Intersection Observer
+  // Infinite scroll with Intersection Observer (Desktop only)
   document.addEventListener("DOMContentLoaded", () => {
     const content = document.getElementById("main-content") as HTMLElement;
     const container = document.querySelector(
@@ -209,67 +207,73 @@ const projectsByCategory = {
 
     if (!content || !container) return;
 
-    // Clone and append content for infinite scroll (3 copies for stability)
-    const originalContent = container.cloneNode(true) as HTMLElement;
-    const clone1 = originalContent.cloneNode(true) as HTMLElement;
-    const clone2 = originalContent.cloneNode(true) as HTMLElement;
+    // Check if desktop (min-width: 1024px)
+    const isDesktop = () => window.matchMedia("(min-width: 1024px)").matches;
 
-    // Remove IDs from clones to avoid conflicts
-    const removeIds = (element: HTMLElement) => {
-      element.querySelectorAll("[id]").forEach((el) => {
-        (el as HTMLElement).removeAttribute("id");
-      });
-    };
+    // Only enable infinite scroll on desktop
+    if (isDesktop()) {
+      // Clone and append content for infinite scroll (3 copies for stability)
+      const originalContent = container.cloneNode(true) as HTMLElement;
+      const clone1 = originalContent.cloneNode(true) as HTMLElement;
+      const clone2 = originalContent.cloneNode(true) as HTMLElement;
 
-    removeIds(clone1);
-    removeIds(clone2);
+      // Remove IDs from clones to avoid conflicts
+      const removeIds = (element: HTMLElement) => {
+        element.querySelectorAll("[id]").forEach((el) => {
+          (el as HTMLElement).removeAttribute("id");
+        });
+      };
 
-    container.appendChild(clone1);
-    container.appendChild(clone2);
+      removeIds(clone1);
+      removeIds(clone2);
 
-    let isScrolling = false;
-    let scrollTimeout: number;
+      container.appendChild(clone1);
+      container.appendChild(clone2);
 
-    const handleScroll = () => {
-      if (isScrolling) return;
+      let isScrolling = false;
+      let scrollTimeout: number;
 
-      // Clear the timeout throughout the scroll
-      clearTimeout(scrollTimeout);
+      const handleScroll = () => {
+        if (isScrolling) return;
 
-      // Set a timeout to run after scrolling ends
-      scrollTimeout = window.setTimeout(() => {
-        const scrollTop = content.scrollTop;
-        const scrollHeight = content.scrollHeight;
-        const clientHeight = content.clientHeight;
-        const oneThirdHeight = scrollHeight / 3;
+        // Clear the timeout throughout the scroll
+        clearTimeout(scrollTimeout);
 
-        // If scrolled past 2/3, jump back to 1/3 (seamless loop)
-        if (scrollTop > oneThirdHeight * 2 - clientHeight) {
-          isScrolling = true;
-          content.style.scrollBehavior = "auto";
-          content.scrollTop = scrollTop - oneThirdHeight;
-          setTimeout(() => {
-            isScrolling = false;
-          }, 100);
-        }
-        // If scrolled above 1/3, jump to 2/3 (backward loop)
-        else if (scrollTop < oneThirdHeight / 3) {
-          isScrolling = true;
-          content.style.scrollBehavior = "auto";
-          content.scrollTop = scrollTop + oneThirdHeight;
-          setTimeout(() => {
-            isScrolling = false;
-          }, 100);
-        }
-      }, 150); // Wait 150ms after scroll stops
-    };
+        // Set a timeout to run after scrolling ends
+        scrollTimeout = window.setTimeout(() => {
+          const scrollTop = content.scrollTop;
+          const scrollHeight = content.scrollHeight;
+          const clientHeight = content.clientHeight;
+          const oneThirdHeight = scrollHeight / 3;
 
-    content.addEventListener("scroll", handleScroll, { passive: true });
+          // If scrolled past 2/3, jump back to 1/3 (seamless loop)
+          if (scrollTop > oneThirdHeight * 2 - clientHeight) {
+            isScrolling = true;
+            content.style.scrollBehavior = "auto";
+            content.scrollTop = scrollTop - oneThirdHeight;
+            setTimeout(() => {
+              isScrolling = false;
+            }, 100);
+          }
+          // If scrolled above 1/3, jump to 2/3 (backward loop)
+          else if (scrollTop < oneThirdHeight / 3) {
+            isScrolling = true;
+            content.style.scrollBehavior = "auto";
+            content.scrollTop = scrollTop + oneThirdHeight;
+            setTimeout(() => {
+              isScrolling = false;
+            }, 100);
+          }
+        }, 150); // Wait 150ms after scroll stops
+      };
 
-    // Start at the middle section
-    content.scrollTop = 1;
+      content.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Smooth scroll handling for anchor links
+      // Start at the middle section
+      content.scrollTop = 1;
+    }
+
+    // Smooth scroll handling for anchor links (both desktop and mobile)
     sidebarLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();

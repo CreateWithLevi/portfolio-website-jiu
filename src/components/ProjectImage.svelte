@@ -14,15 +14,47 @@
   let containerElement = $state<HTMLDivElement>();
   let imageEffect = $state<ImageEffect | null>(null);
   let videoElement = $state<HTMLVideoElement | null>(null);
+  let observer = $state<IntersectionObserver | null>(null);
+  let isVisible = $state(false);
 
   onMount(() => {
-    if (type === 'image' && canvasElement) {
-      // Initialize WebGL effect for images
-      imageEffect = new ImageEffect(canvasElement, src);
+    if (type === 'image' && containerElement) {
+      // Use Intersection Observer to only initialize WebGL when visible
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !isVisible) {
+              isVisible = true;
+              // Initialize WebGL when component becomes visible
+              if (canvasElement && !imageEffect) {
+                imageEffect = new ImageEffect(canvasElement, src);
+              }
+            } else if (!entry.isIntersecting && isVisible) {
+              // Optionally destroy when not visible to save resources
+              // Uncomment below to enable cleanup when scrolling away
+              // if (imageEffect) {
+              //   imageEffect.destroy();
+              //   imageEffect = null;
+              //   isVisible = false;
+              // }
+            }
+          });
+        },
+        {
+          rootMargin: '50px', // Start loading slightly before visible
+          threshold: 0.01,
+        }
+      );
+
+      observer.observe(containerElement);
     }
   });
 
   onDestroy(() => {
+    if (observer) {
+      observer.disconnect();
+      observer = null;
+    }
     if (imageEffect) {
       imageEffect.destroy();
       imageEffect = null;
