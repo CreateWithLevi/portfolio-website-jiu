@@ -7,7 +7,7 @@ import { vertex, fragment } from './fluidShader';
  */
 export class ImageEffect {
   private renderer: Renderer;
-  private gl: WebGLRenderingContext;
+  private gl: (WebGL2RenderingContext | WebGLRenderingContext) & { renderer: Renderer; canvas: HTMLCanvasElement; };
   private camera: Camera;
   private geometry: Geometry;
   private program: Program;
