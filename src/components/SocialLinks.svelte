@@ -93,8 +93,8 @@
   /* Mobile */
   @media (max-width: 1023px) {
     .social-links {
-      margin-top: var(--spacing-30);
-      justify-content: center;
+      margin: var(--spacing-8) 0 var(--spacing-30) 0;
+      justify-content: flex-start;
     }
   }
 </style>

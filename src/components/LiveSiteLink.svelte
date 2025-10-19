@@ -77,8 +77,9 @@
   .live-site-link {
     display: flex;
     align-items: center;
-    gap: var(--spacing-16);
+    gap: var(--spacing-12);
     transition: opacity var(--transition-fast);
+    padding: var(--spacing-8) 0;
   }
 
   .live-site-link:hover {

@@ -62,6 +62,9 @@ export class ImageEffect {
     img.crossOrigin = 'anonymous';
     img.onload = () => {
       texture.image = img;
+      if (this.program && this.program.uniforms.uImageResolution) {
+        this.program.uniforms.uImageResolution.value.set(img.width, img.height);
+      }
       this.resize();
       this.update();
     };
@@ -76,6 +79,7 @@ export class ImageEffect {
         uMouse: { value: this.mouse },
         uTime: { value: 0 },
         uResolution: { value: new Vec2(this.canvas.width, this.canvas.height) },
+        uImageResolution: { value: new Vec2(1, 1) },
         uStrength: { value: 1.0 },
       },
     });
@@ -146,6 +150,9 @@ export class ImageEffect {
       texture.image = img;
       if (this.program && this.program.uniforms.tMap) {
         this.program.uniforms.tMap.value = texture;
+      }
+      if (this.program && this.program.uniforms.uImageResolution) {
+        this.program.uniforms.uImageResolution.value.set(img.width, img.height);
       }
     };
     img.src = imageSrc;

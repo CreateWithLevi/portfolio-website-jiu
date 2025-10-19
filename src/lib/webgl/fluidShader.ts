@@ -21,6 +21,7 @@ export const fragment = /* glsl */ `
   uniform vec2 uMouse;
   uniform float uTime;
   uniform vec2 uResolution;
+  uniform vec2 uImageResolution;
   uniform float uStrength;
 
   varying vec2 vUv;
@@ -56,7 +57,18 @@ export const fragment = /* glsl */ `
   }
 
   void main() {
-    vec2 uv = vUv;
+    // Calculate aspect ratio scale for object-fit: cover
+    // This ensures the image covers the entire canvas without distortion
+    vec2 ratio = vec2(
+      min((uResolution.x / uResolution.y) / (uImageResolution.x / uImageResolution.y), 1.0),
+      min((uResolution.y / uResolution.x) / (uImageResolution.y / uImageResolution.x), 1.0)
+    );
+
+    // Apply scale and center the texture
+    vec2 uv = vec2(
+      vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
+      vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
+    );
 
     // Calculate distance from mouse
     vec2 mousePos = uMouse / uResolution;

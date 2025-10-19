@@ -124,7 +124,7 @@
     top: 0;
     height: 100vh;
     width: var(--sidebar-width);
-    padding: var(--spacing-35);
+    padding: var(--spacing-36);
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -187,7 +187,7 @@
   .project-list {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-15);
+    gap: var(--spacing-16);
   }
 
   .project-link {

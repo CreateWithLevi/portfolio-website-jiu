@@ -14,9 +14,15 @@ const [websites, branding, others] = await Promise.all([
 ]);
 
 // Sort each category by order
-const sortedWebsites = websites.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-const sortedBranding = branding.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-const sortedOthers = others.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+const sortedWebsites = websites.sort(
+  (a, b) => (a.data.order || 0) - (b.data.order || 0),
+);
+const sortedBranding = branding.sort(
+  (a, b) => (a.data.order || 0) - (b.data.order || 0),
+);
+const sortedOthers = others.sort(
+  (a, b) => (a.data.order || 0) - (b.data.order || 0),
+);
 
 // Combine all projects in order
 const allProjects = [...sortedWebsites, ...sortedBranding, ...sortedOthers];
@@ -41,66 +47,60 @@ const projectsByCategory = {
         <!-- Website Projects -->
         {
           projectsByCategory.website.length > 0 && (
-            <>
-              <CategorySeparator label="WEBSITE" />
-              <div class="projects-grid">
-                {projectsByCategory.website.map((project) => (
-                  <ProjectCard
-                    client:load
-                    id={project.id}
-                    title={project.data.title}
-                    description={project.data.description}
-                    media={project.data.media}
-                    tags={project.data.tags}
-                    url={project.data.url}
-                  />
-                ))}
-              </div>
-            </>
+            <div class="projects-grid">
+              {projectsByCategory.website.map((project) => (
+                <ProjectCard
+                  client:load
+                  id={project.id}
+                  title={project.data.title}
+                  description={project.data.description}
+                  media={project.data.media}
+                  tags={project.data.tags}
+                  url={project.data.url}
+                  category="website"
+                />
+              ))}
+            </div>
           )
         }
 
         <!-- Branding Projects -->
         {
           projectsByCategory.branding.length > 0 && (
-            <>
-              <CategorySeparator label="BRANDING" />
-              <div class="projects-grid">
-                {projectsByCategory.branding.map((project) => (
-                  <ProjectCard
-                    client:load
-                    id={project.id}
-                    title={project.data.title}
-                    description={project.data.description}
-                    media={project.data.media}
-                    tags={project.data.tags}
-                    url={project.data.url}
-                  />
-                ))}
-              </div>
-            </>
+            <div class="projects-grid">
+              {projectsByCategory.branding.map((project) => (
+                <ProjectCard
+                  client:load
+                  id={project.id}
+                  title={project.data.title}
+                  description={project.data.description}
+                  media={project.data.media}
+                  tags={project.data.tags}
+                  url={project.data.url}
+                  category="branding"
+                />
+              ))}
+            </div>
           )
         }
 
         <!-- Other Projects -->
         {
           projectsByCategory.others.length > 0 && (
-            <>
-              <CategorySeparator label="OTHERS" />
-              <div class="projects-grid">
-                {projectsByCategory.others.map((project) => (
-                  <ProjectCard
-                    client:load
-                    id={project.id}
-                    title={project.data.title}
-                    description={project.data.description}
-                    media={project.data.media}
-                    tags={project.data.tags}
-                    url={project.data.url}
-                  />
-                ))}
-              </div>
-            </>
+            <div class="projects-grid">
+              {projectsByCategory.others.map((project) => (
+                <ProjectCard
+                  client:load
+                  id={project.id}
+                  title={project.data.title}
+                  description={project.data.description}
+                  media={project.data.media}
+                  tags={project.data.tags}
+                  url={project.data.url}
+                  category="others"
+                />
+              ))}
+            </div>
           )
         }
       </div>
@@ -122,7 +122,7 @@ const projectsByCategory = {
   .content {
     flex: 1;
     width: var(--content-width);
-    padding: var(--spacing-35);
+    padding: var(--spacing-36);
     position: relative;
     height: 100vh;
     overflow-y: auto;
@@ -133,12 +133,13 @@ const projectsByCategory = {
   .infinite-scroll-container {
     display: flex;
     flex-direction: column;
+    gap: var(--spacing-100);
   }
 
   .projects-grid {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-30);
+    gap: var(--spacing-100);
   }
 
   .projects-grid > :global(article) {
@@ -152,7 +153,7 @@ const projectsByCategory = {
   .watermark {
     position: fixed;
     bottom: 162px;
-    left: var(--spacing-35);
+    left: var(--spacing-36);
     font-size: 105px;
     font-weight: var(--font-weight-bold);
     line-height: var(--line-height-normal);
@@ -177,6 +178,10 @@ const projectsByCategory = {
       scroll-snap-type: none;
     }
 
+    .infinite-scroll-container {
+      gap: var(--spacing-24);
+    }
+
     .projects-grid {
       gap: var(--spacing-24);
     }
@@ -197,7 +202,9 @@ const projectsByCategory = {
   // Stable infinite scroll with Intersection Observer
   document.addEventListener("DOMContentLoaded", () => {
     const content = document.getElementById("main-content") as HTMLElement;
-    const container = document.querySelector(".infinite-scroll-container") as HTMLElement;
+    const container = document.querySelector(
+      ".infinite-scroll-container",
+    ) as HTMLElement;
     const sidebarLinks = document.querySelectorAll('.sidebar a[href^="#"]');
 
     if (!content || !container) return;
@@ -209,8 +216,8 @@ const projectsByCategory = {
 
     // Remove IDs from clones to avoid conflicts
     const removeIds = (element: HTMLElement) => {
-      element.querySelectorAll('[id]').forEach(el => {
-        (el as HTMLElement).removeAttribute('id');
+      element.querySelectorAll("[id]").forEach((el) => {
+        (el as HTMLElement).removeAttribute("id");
       });
     };
 

@@ -14,6 +14,7 @@
     tags: string[];
     url: string;
     year?: string;
+    category?: string;
   }
 
   let {
@@ -24,10 +25,18 @@
     tags,
     url,
     year = "2025",
+    category,
   }: Props = $props();
 </script>
 
 <article {id} class="project-card">
+  <!-- Mobile Category Label -->
+  {#if category}
+    <div class="category-header">
+      <span class="category-label">{category}</span>
+    </div>
+  {/if}
+
   <div class="project-header">
     {#if year}
       <p class="project-year">{year}</p>
@@ -57,6 +66,11 @@
 
       <p class="project-description">{description}</p>
     </div>
+
+    <!-- Mobile Divider -->
+    {#if category}
+      <div class="divider"></div>
+    {/if}
   </div>
 </article>
 
@@ -64,14 +78,30 @@
   .project-card {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-35);
+    gap: var(--spacing-36);
     width: 100%;
+  }
+
+  .category-header {
+    display: none;
+  }
+
+  .category-label {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-tight);
+    color: var(--off-white-70);
+    text-transform: uppercase;
+  }
+
+  .divider {
+    display: none;
   }
 
   .project-header {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-35);
+    gap: var(--spacing-36);
   }
 
   .project-year {
@@ -90,7 +120,7 @@
   .project-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-35);
+    gap: var(--spacing-24);
   }
 
   .project-title-row {
@@ -144,8 +174,26 @@
 
   /* Mobile */
   @media (max-width: 1023px) {
+    .project-image-wrapper {
+      padding: 0 var(--spacing-24);
+    }
+
     .project-card {
-      gap: 5px;
+      gap: 1rem;
+    }
+
+    .category-header {
+      display: block;
+      padding: 0 var(--spacing-24);
+      margin-bottom: var(--spacing-16);
+    }
+
+    .divider {
+      display: block;
+      height: 1px;
+      width: 100%;
+      background-color: var(--off-white-50);
+      margin: var(--spacing-12) 0 var(--spacing-16) 0;
     }
 
     .project-header {
@@ -157,30 +205,35 @@
     }
 
     .project-content {
-      gap: 5px;
+      gap: 4px;
       padding: 0 var(--spacing-24);
     }
 
     .project-title-row {
-      height: 21px;
-      align-items: center;
+      align-items: flex-start;
     }
 
     .project-title {
       font-size: var(--font-size-hero);
       max-width: none;
-      white-space: nowrap;
     }
 
     .project-details {
       flex-direction: column;
-      gap: var(--spacing-12);
-      padding: var(--spacing-12) 0 var(--spacing-24);
+      gap: var(--spacing-16);
+      padding: var(--spacing-4) 0 var(--spacing-24);
     }
 
     .project-tags {
       flex-direction: row;
       flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 4px 12px;
+      font-size: var(--font-size-small);
+      color: var(--off-white-70);
+      border: 1px solid var(--off-white-70);
     }
 
     .project-description {
